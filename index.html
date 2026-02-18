@@ -17,23 +17,6 @@
     <!-- Sync Loading for Critical Proxy Scripts -->
     <script src="/uv/uv.bundle.js"></script>
     <script src="/uv.config.js"></script>
-    <!-- Inline Config for Speed (Optional redundancy) -->
-    <script>
-        if (!self.__uv$config) {
-            const basePath = "/uv/";
-            self.__uv$config = {
-                prefix: basePath + "service/",
-                encodeUrl: Ultraviolet.codec.xor.encode,
-                decodeUrl: Ultraviolet.codec.xor.decode,
-                handler: basePath + "uv.handler.js",
-                client: basePath + "uv.client.js",
-                bundle: basePath + "uv.bundle.js",
-                config: "/uv.config.js",
-                sw: basePath + "uv.sw.js",
-                stockSW: "/sw.js",
-            };
-        }
-    </script>
     <script src="/baremux/index.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
@@ -376,7 +359,7 @@
 
         // --- Configuration ---
         // Immediate Initialization
-        (async () => {
+        window.addEventListener('load', async () => {
             if ("serviceWorker" in navigator) {
                 try {
                     await navigator.serviceWorker.register(__uv$config.stockSW, {
@@ -399,7 +382,7 @@
             } catch (e) {
                 console.error("BareMux Init Failed", e);
             }
-        })();
+        });
 
         // --- State ---
         let bTabs = [];

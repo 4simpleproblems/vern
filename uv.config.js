@@ -3,14 +3,15 @@
     const basePath = "/uv/";
 
     self.__uv$config = {
-        prefix: basePath + "service/",
+        prefix: "/uv/service/",
+        bare: "/bare/", // Placeholder, usually handled by server
         encodeUrl: Ultraviolet.codec.xor.encode,
         decodeUrl: Ultraviolet.codec.xor.decode,
-        handler: basePath + "uv.handler.js",
-        client: basePath + "uv.client.js",
-        bundle: basePath + "uv.bundle.js",
+        handler: "/uv/uv.handler.js",
+        client: "/uv/uv.client.js",
+        bundle: "/uv/uv.bundle.js",
         config: "/uv.config.js",
-        sw: basePath + "uv.sw.js",
+        sw: "/uv/uv.sw.js",
         stockSW: "/sw.js",
     };
 })();
