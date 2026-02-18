@@ -11,16 +11,14 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <!-- Aggressive Preloading -->
-    <link rel="preload" href="uv/uv.bundle.js" as="script">
-    <link rel="preload" href="baremux/index.js" as="script">
-    <link rel="preload" href="baremux/worker.js" as="worker">
-    <link rel="preload" href="uv/sw.js" as="worker">
+    <link rel="preload" href="/uv/uv.bundle.js" as="script">
+    <link rel="preload" href="/baremux/index.js" as="script">
 
     <!-- Sync Loading for Critical Proxy Scripts -->
-    <script src="uv/uv.bundle.js"></script>
+    <script src="/uv/uv.bundle.js"></script>
     <!-- Inline Config for Speed -->
     <script>
-        const basePath = "uv/";
+        const basePath = "/uv/";
         self.__uv$config = {
             prefix: basePath + "service/",
             encodeUrl: Ultraviolet.codec.xor.encode,
@@ -33,7 +31,7 @@
             stockSW: basePath + "sw.js",
         };
     </script>
-    <script src="baremux/index.js"></script>
+    <script src="/baremux/index.js"></script>
     
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -390,9 +388,9 @@
 
             // Init BareMux
             try {
-                const connection = new BareMux.BareMuxConnection("baremux/worker.js");
+                const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
                 const wispUrl = "wss://wisp.mercurywork.shop/";
-                connection.setTransport("libcurl/index.mjs", [
+                connection.setTransport("/libcurl/index.mjs", [
                     { websocket: wispUrl },
                     { websocket: "wss://ruby.rubynetwork.xyz/wisp/" }
                 ]);

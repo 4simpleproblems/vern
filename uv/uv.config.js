@@ -1,7 +1,7 @@
 (() => {
     // Explicitly set the base path for VERN UV
     // This ensures consistency whether loaded from /index.html or inside the worker
-    const basePath = "uv/";
+    const basePath = "/uv/";
 
     self.__uv$config = {
         prefix: basePath + "service/",
