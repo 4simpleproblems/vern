@@ -16,20 +16,23 @@
 
     <!-- Sync Loading for Critical Proxy Scripts -->
     <script src="/uv/uv.bundle.js"></script>
-    <!-- Inline Config for Speed -->
+    <script src="/uv.config.js"></script>
+    <!-- Inline Config for Speed (Optional redundancy) -->
     <script>
-        const basePath = "/uv/";
-        self.__uv$config = {
-            prefix: basePath + "service/",
-            encodeUrl: Ultraviolet.codec.xor.encode,
-            decodeUrl: Ultraviolet.codec.xor.decode,
-            handler: basePath + "uv.handler.js",
-            client: basePath + "uv.client.js",
-            bundle: basePath + "uv.bundle.js",
-            config: basePath + "uv.config.js",
-            sw: basePath + "uv.sw.js",
-            stockSW: basePath + "sw.js",
-        };
+        if (!self.__uv$config) {
+            const basePath = "/uv/";
+            self.__uv$config = {
+                prefix: basePath + "service/",
+                encodeUrl: Ultraviolet.codec.xor.encode,
+                decodeUrl: Ultraviolet.codec.xor.decode,
+                handler: basePath + "uv.handler.js",
+                client: basePath + "uv.client.js",
+                bundle: basePath + "uv.bundle.js",
+                config: "/uv.config.js",
+                sw: basePath + "uv.sw.js",
+                stockSW: "/sw.js",
+            };
+        }
     </script>
     <script src="/baremux/index.js"></script>
     
@@ -375,12 +378,11 @@
         // Immediate Initialization
         (async () => {
             if ("serviceWorker" in navigator) {
-                // Register SW immediately, don't wait for window load
                 try {
                     await navigator.serviceWorker.register(__uv$config.stockSW, {
                         scope: __uv$config.prefix
                     });
-                    console.log("SW Registered Fast");
+                    console.log("SW Registered: " + __uv$config.stockSW + " with scope " + __uv$config.prefix);
                 } catch (e) {
                     console.error("SW Register Failed", e);
                 }

@@ -1,6 +1,5 @@
 (() => {
-    // Explicitly set the base path for VERN UV
-    // This ensures consistency whether loaded from /index.html or inside the worker
+    // Ultraviolet Configuration for Standalone Vern
     const basePath = "/uv/";
 
     self.__uv$config = {
@@ -10,8 +9,8 @@
         handler: basePath + "uv.handler.js",
         client: basePath + "uv.client.js",
         bundle: basePath + "uv.bundle.js",
-        config: basePath + "uv.config.js",
+        config: "/uv.config.js",
         sw: basePath + "uv.sw.js",
-        stockSW: basePath + "sw.js", // The stock SW that imports uv.sw.js
+        stockSW: "/sw.js",
     };
 })();
