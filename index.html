@@ -373,13 +373,36 @@
 
             // Init BareMux
             try {
-                const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+                const workerPath = "/baremux/worker.js";
+                const connection = new BareMux.BareMuxConnection(workerPath);
                 const wispUrl = "wss://wisp.mercurywork.shop/";
                 await connection.setTransport("/libcurl/index.mjs", [
                     { websocket: wispUrl },
                     { websocket: "wss://ruby.rubynetwork.xyz/wisp/" }
                 ]);
                 console.log("BareMux Transport Set");
+
+                // Sync with Service Workers
+                const syncPort = (port) => {
+                    // Try to sync with all registrations to be safe
+                    navigator.serviceWorker.getRegistrations().then(registrations => {
+                        registrations.forEach(reg => {
+                            const sw = reg.active || reg.waiting || reg.installing;
+                            if (sw) {
+                                sw.postMessage({
+                                    type: 'baremuxinit',
+                                    path: workerPath,
+                                    port: port
+                                }, [port]);
+                            }
+                        });
+                    });
+                };
+
+                if (connection.port) {
+                    syncPort(connection.port);
+                    console.log("BareMux Port Synced");
+                }
             } catch (e) {
                 console.error("BareMux Init Failed", e);
             }
